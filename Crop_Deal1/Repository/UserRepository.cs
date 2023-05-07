@@ -22,5 +22,10 @@ namespace Crop_Deal1.Repository
             await context.SaveChangesAsync();
             return user;
         }
+
+        public async Task<List<User>> GetUsers()
+        {
+            return await context.Users.ToListAsync();
+        }
     }
 }

@@ -67,12 +67,6 @@ namespace Crop_Deal1.Controllers
             return bank_detail;
         }
 
-        // PUT: api/Bank_detail/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        
-
-        // POST: api/Bank_detail
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Bank_detail>> PostBank_detail(Bank_detail bank_detail)
         {
@@ -86,7 +80,7 @@ namespace Crop_Deal1.Controllers
             return CreatedAtAction("GetBank_detail", new { id = bank_detail.Bank_detailid }, bank_detail);
         }
 
-        // DELETE: api/Bank_detail/5
+ 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBank_detail(int id)
         {

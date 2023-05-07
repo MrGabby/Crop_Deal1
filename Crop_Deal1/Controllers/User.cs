@@ -26,7 +26,8 @@ namespace Crop_Deal1.Controllers
         [HttpPost]
         public async Task<ActionResult<User>>PostUser(Userdto userd)
         {
-            if (context.Users == null)
+            
+            if (userd == null)
             {
                 return BadRequest();
             }
@@ -44,6 +45,37 @@ namespace Crop_Deal1.Controllers
             user = await repo.CreateUser(user);
             return Ok(user);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<User>> GetUsers()
+        {
+            var user= await repo.GetUsers();
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var userlist = new List<Userdto>();
+
+            foreach (var i in user)
+            {
+                userlist.Add(new Userdto()
+                {
+                    Name=i.Name,
+                    Password=i.Password,
+                    Email_id=i.Email_id,
+                    Contact = i.Contact,
+                    Address = i.Address,
+                    Roles = i.Roles,
+                    Is_subscribe = i.Is_subscribe
+                });
+            }
+
+
+            return Ok(userlist);
+        }
+
+
 
 
 // -----------------------------------------------------------
@@ -72,7 +104,7 @@ namespace Crop_Deal1.Controllers
             }
             return b;
         }
-        [HttpGet]
+/*        [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             if (context.Users == null)
@@ -81,7 +113,7 @@ namespace Crop_Deal1.Controllers
             }
             return await context.Users.ToListAsync();
 
-        }
+        }*/
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
