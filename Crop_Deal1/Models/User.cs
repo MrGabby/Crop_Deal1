@@ -13,29 +13,23 @@ namespace Crop_Deal1.Models
         public int Userid { get; set; }
 
         //-----------------------------------------------------------------
-        [Required(ErrorMessage = "Please enter your name"), MinLength(3), MaxLength(50)]
+    
         public string? Name { get; set; }
 
         //----------------------------------------------------------------- 
         [Required(ErrorMessage = "Please enter contact number")]
         [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Contact Number")]
+     
         public string? Contact { get; set; }
 
         public string? Roles { get; set; } = string.Empty;
 
         //-----------------------------------------------------------------
-        [Required(ErrorMessage = "Please enter your email id")]
+
         [DataType(DataType.EmailAddress)]
 
         public string? Email_id { get; set; }
 
-        //-----------------------------------------------------------------
-
-        /*        [Required]
-                public byte[]? PasswordHash { get; set; }
-                [Required]
-                public byte[]? PasswordSalt { get; set; }*/
         [Required]
         public int Password { get; set; }
 
@@ -52,6 +46,8 @@ namespace Crop_Deal1.Models
 
         public bool Is_Active { get; set; } = false;
 
+        public List<Crop> Crops{ get; set; }
+        public List<Invoice> Invoices{ get; set; }
 
         //-----------------------------------------------------------------
         /*        public Crop Crop { get; set; }
@@ -72,8 +68,6 @@ namespace Crop_Deal1.Models
      /*   [JsonIgnore]*/
     /*    public virtual Bank_detail bank_Detail { get; set; }*/
 
-                public List<Crop> Crops{ get; set; }
-                public List<Invoice> Invoices{ get; set; }
 
 
     }

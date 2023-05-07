@@ -1,6 +1,9 @@
 ﻿
 using Crop_Deal1.Data;
+using Crop_Deal1.Dtos;
+using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
+using Crop_Deal1.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,22 +15,48 @@ namespace Crop_Deal1.Controllers
     public class UserController : Controller
     {
         private readonly ApiDbContext context;
-
-        public UserController(ApiDbContext context)
+        private readonly IUser repo;
+        public UserController(ApiDbContext context,IUser repo)
         {
             this.context = context;
+            this.repo= repo;    
         }
 
- 
-
+        //  Repo DTO --------------------------------------------
         [HttpPost]
+        public async Task<ActionResult<User>>PostUser(Userdto userd)
+        {
+            if (context.Users == null)
+            {
+                return BadRequest();
+            }
+            var user = new User()
+            {
+                Name = userd.Name,
+                Password = userd.Password,
+                Email_id = userd.Email_id,
+                Contact = userd.Contact,
+                Address = userd.Address,
+                Roles = userd.Roles,
+                Is_subscribe = userd.Is_subscribe
+            };
+
+            user = await repo.CreateUser(user);
+            return Ok(user);
+        }
+
+
+// -----------------------------------------------------------
+
+
+/*        [HttpPost]
         public async Task<ActionResult<User>> PostUser(User b)
         {
             context.Users.Add(b);
             await context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetUser), new { id = b.Userid }, User);
-        }
+        }*/
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
