@@ -26,16 +26,16 @@ namespace Crop_Deal1.Controllers
             {
                 return BadRequest();
             }
-       /*     var invoice = new Invoice()
+            var invoice = new Invoice()
             {
-                Name = invoiced.Name,
-                Amount = invoiced.Amount,
-                PaymentStatus = invoiced.PaymentStatus,
-                Date = invoiced.Date
+                Quantity = invoiced.Quantity,
+                Price = invoiced.Price,
+                Payment_Mode = invoiced.Payment_Mode,
+                Status = invoiced.Status
             };
-*/
-         /*   invoice = await repo.CreateInvoice(invoice);*/
-            return Ok(invoiced);
+
+            invoice = await repo.CreateInvoice(invoice);
+            return Ok(invoice);
         }
 
         [HttpGet]
@@ -47,20 +47,23 @@ namespace Crop_Deal1.Controllers
                 return BadRequest();
             }
 
-        /*    var invoicelist = new List<Invoicedto>();
+            var invoicelist = new List<Invoice>();
 
             foreach (var i in invoices)
             {
-                invoicelist.Add(new Invoicedto()
-                {
-                    Name = i.Name,
-                    Amount = i.Amount,
-                    PaymentStatus = i.PaymentStatus,
-                    Date = i.Date
+                invoicelist.Add(new Invoice()
+                { 
+                    Invoiceid=i.Invoiceid,
+                    Quantity = i.Quantity,
+                    Price = i.Price,
+                  Payment_Mode = i.Payment_Mode, 
+                    Status = i.Status,
+                    Date_created = i.Date_created
+                  
                 });
             }
-*/
-            return Ok(invoices);
+
+            return Ok(invoicelist);
         }
 
 

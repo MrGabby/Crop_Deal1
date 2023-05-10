@@ -6,6 +6,7 @@ namespace Crop_Deal1.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class CropController : ControllerBase
-    {
+    { 
+
     }
 }

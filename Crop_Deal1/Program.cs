@@ -13,6 +13,10 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
 
 builder.Services.AddScoped<IUser,UserRepository>();
 builder.Services.AddScoped<IBank_detail,Bank_detailRepository>();
+builder.Services.AddScoped<ICrop_detail,Crop_detailRepository>();
+builder.Services.AddScoped<ICrop,CropRepository>();
+builder.Services.AddScoped<IInvoice,InvoiceRepository>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

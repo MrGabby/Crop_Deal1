@@ -3,7 +3,7 @@ using Crop_Deal1.Models;
 
 namespace Crop_Deal1.Repository
 {
-    public class CropRepositorycs : ICrop
+    public class CropRepository : ICrop
     {
         Task<Crop> ICrop.CreateCrop(Crop crop)
         {
