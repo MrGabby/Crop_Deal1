@@ -45,8 +45,9 @@ namespace Crop_Deal1.Models
         public bool Is_subscribe { get; set; } = false;
 
         public bool Is_Active { get; set; } = false;
-
+        [JsonIgnore]
         public List<Crop> Crops{ get; set; }
+        [JsonIgnore]
         public List<Invoice> Invoices{ get; set; }
 
         //-----------------------------------------------------------------
