@@ -23,7 +23,9 @@ namespace Crop_Deal1.Models
         public string CropDetails_id{ get; set; } = string.Empty;*/
 
         [Required]
-        public int  Quantity { get; set; }
+        public int  Quantity { get; set; }       
+        [Required]
+        public double  Price { get; set; }
 
         [Required]
         public string Payment_Mode { get; set; } = string.Empty;

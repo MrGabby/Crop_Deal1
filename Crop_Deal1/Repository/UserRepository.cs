@@ -55,10 +55,19 @@ namespace Crop_Deal1.Repository
             user.Roles = i.Roles;
             user.Is_subscribe = i.Is_subscribe;
 
-            context.SaveChangesAsync();
+           await context.SaveChangesAsync();
 
             return user;
         }
 
+        public async Task<User> GetUser(int id)
+        {
+            var user = await context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
+        }
     }
 }

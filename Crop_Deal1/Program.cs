@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
 
 builder.Services.AddScoped<IUser,UserRepository>();
+builder.Services.AddScoped<IBank_detail,Bank_detailRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

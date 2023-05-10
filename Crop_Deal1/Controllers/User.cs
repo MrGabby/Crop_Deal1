@@ -14,11 +14,9 @@ namespace Crop_Deal1.Controllers
     [Route("api/[Controller]")]
     public class UserController : Controller
     {
-        private readonly ApiDbContext context;
         private readonly IUser repo;
-        public UserController(ApiDbContext context,IUser repo)
+        public UserController(IUser repo)
         {
-            this.context = context;
             this.repo= repo;    
         }
 
@@ -76,7 +74,16 @@ namespace Crop_Deal1.Controllers
         }
 
 
-
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            var user= await repo.GetUser(id);
+            if(user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
 
 
         [HttpPut("{id}")]
