@@ -23,7 +23,7 @@ namespace Crop_Deal1.Models
         [Required(ErrorMessage = "Please enter  IFSC code")]
         public string? IFSC { get; set; }
         public int Userid { get; set; }
-        [JsonIgnore]
+     /*   [JsonIgnore]*/
         public  User? User { get; set; }
     }
 }

@@ -1,33 +1,68 @@
-﻿using Crop_Deal1.Interface;
+﻿using Crop_Deal1.Data;
+using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Crop_Deal1.Repository
 {
     public class CropRepository : ICrop
     {
-        Task<Crop> ICrop.CreateCrop(Crop crop)
+        private readonly ApiDbContext context;
+
+        public CropRepository(ApiDbContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
         }
 
-        Task<Crop> ICrop.DeleteCrop(int id)
+        public async Task<Crop> CreateCrop(Crop user)
         {
-            throw new NotImplementedException();
+            await context.Crops.AddAsync(user);
+            await context.SaveChangesAsync();
+            return user;
         }
 
-        Task<Crop> ICrop.GetCrop(int id)
+        public async Task<Crop> DeleteCrop(int id)
         {
-            throw new NotImplementedException();
+            var user = await context.Crops.FindAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+            context.Crops.Remove(user);
+            await context.SaveChangesAsync();
+            return user;
         }
 
-        Task<List<Crop>> ICrop.GetCrops()
+        public async Task<Crop> GetCrop(int id)
         {
-            throw new NotImplementedException();
+            var user = await context.Crops.FindAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
         }
 
-        Task<Crop> ICrop.UpdateCrop(int id, Crop crop)
+        public async Task<IEnumerable<Crop>> GetCrops()
         {
-            throw new NotImplementedException();
+            return await context.Crops.ToListAsync();
+        }
+
+        public async Task<Crop> UpdateCrop(int id, Crop user)
+        {
+            var u = await context.Crops.FindAsync(id);
+            if (u == null)
+            {
+                return null;
+            }
+            u.Cropid = id;
+            u.Crop_name = user.Crop_name;
+            u.Crop_image = user.Crop_image;
+           
+
+            await context.SaveChangesAsync();
+
+            return u;
         }
     }
 }

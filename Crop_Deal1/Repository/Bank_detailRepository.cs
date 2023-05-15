@@ -1,6 +1,8 @@
 ﻿using Crop_Deal1.Data;
+using Crop_Deal1.Dtos;
 using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crop_Deal1.Repository
@@ -13,11 +15,16 @@ namespace Crop_Deal1.Repository
         {
             this.context = context;
         }
-        public async Task<Bank_detail> CreateBank_acc(Bank_detail user)
+        public async Task<Bank_detail> CreateBank_acc(Bank_detaildto user)
         {
-            await context.Bank_details.AddAsync(user);
+            var Bank = new Bank_detail();
+            Bank.Bank_name = user.Bank_name;
+            Bank.Account_no = user.Account_no;
+            Bank.IFSC=user.IFSC;
+            Bank.Userid = user.userid;
+            await context.Bank_details.AddAsync(Bank);
             await context.SaveChangesAsync();
-            return user;
+            return Bank;
         }
 
         public async Task<Bank_detail> DeleteBank_acc(int id)
@@ -42,10 +49,15 @@ namespace Crop_Deal1.Repository
             return user;
         }
 
-        public async Task<List<Bank_detail>> GetBank_details()
+        public async Task<IEnumerable<Bank_detail>> GetBank_details()
         {
            return await context.Bank_details.ToListAsync();
         }
+         public async Task<IEnumerable<Bank_detail>> GetUserwithBank_details()
+        { 
+           return await context.Bank_details.Include(x=>x.User).ToListAsync();
+        }
+        
 
         public async Task<Bank_detail> UpdateBank_detail(int id, Bank_detail user)
         {

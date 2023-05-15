@@ -22,7 +22,7 @@ namespace Crop_Deal1.Controllers
 
         //  Repo DTO --------------------------------------------
         [HttpPost]
-        public async Task<ActionResult<User>>PostUser(Userdto userd)
+        public async Task<ActionResult<User>>AddUser(Userdto userd)
         {
             
             if (userd == null)
@@ -30,7 +30,7 @@ namespace Crop_Deal1.Controllers
                 return BadRequest();
             }
             var user = new User()
-            {
+            { 
                 Name = userd.Name,
                 Password = userd.Password,
                 Email_id = userd.Email_id,
@@ -45,7 +45,7 @@ namespace Crop_Deal1.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<User>> GetUsers()
+        public async Task<ActionResult<User>> GetAllUsers()
         {
             var user= await repo.GetUsers();
             if (user == null)
@@ -53,12 +53,12 @@ namespace Crop_Deal1.Controllers
                 return BadRequest();
             }
 
-            var userlist = new List<Userdto>();
+            var userlist = new List<User>();
 
             foreach (var i in user)
             {
-                userlist.Add(new Userdto()
-                {
+                userlist.Add(new User()
+                 {  Userid=i.Userid,
                     Name=i.Name,
                     Password=i.Password,
                     Email_id=i.Email_id,

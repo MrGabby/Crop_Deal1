@@ -1,33 +1,72 @@
-﻿using Crop_Deal1.Interface;
+﻿using Crop_Deal1.Data;
+using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Crop_Deal1.Repository
 {
     public class Crop_detailRepository : ICrop_detail
     {
-        Task<Crop_detail> ICrop_detail.CreateCrop_acc(Crop_detail user)
+        private readonly ApiDbContext context;
+
+        public Crop_detailRepository(ApiDbContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
         }
 
-        Task<Crop_detail> ICrop_detail.DeleteCrop_acc(int id)
+        public async Task<Crop_detail> CreateCrop(Crop_detail user)
         {
-            throw new NotImplementedException();
+            await context.Crop_details.AddAsync(user);
+            await context.SaveChangesAsync();
+            return user;
         }
 
-        Task<Crop_detail> ICrop_detail.GetCrop_detail(int id)
+        public async Task<Crop_detail> DeleteCrop_detail(int id)
         {
-            throw new NotImplementedException();
+            var user = await context.Crop_details.FindAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+            context.Crop_details.Remove(user);
+            await context.SaveChangesAsync();
+            return user;
         }
 
-        Task<List<Crop_detail>> ICrop_detail.GetCrop_details()
+        public async Task<Crop_detail> GetCrop_detail(int id)
         {
-            throw new NotImplementedException();
+            var user = await context.Crop_details.FindAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
         }
 
-        Task<Crop_detail> ICrop_detail.UpdateCrop_detail(int id, Crop_detail user)
+        public async Task<IEnumerable<Crop_detail>> GetCrop_details()
         {
-            throw new NotImplementedException();
+            return await context.Crop_details.ToListAsync();
+        }
+
+        public async Task<Crop_detail> UpdateCrop_detail(int id, Crop_detail user)
+        {
+            var u = await context.Crop_details.FindAsync(id);
+            if (u == null)
+            {
+                return null;
+            }
+            u.Crop_detailid = id;
+            u.Crop_name = user.Crop_name;
+            u.Crop_type = user.Crop_type;
+            u.CropDetail_description = user.CropDetail_description;
+            u.Quantity = user.Quantity;
+            u.Price = user.Price;
+            u.Location = user.Location;
+
+            await context.SaveChangesAsync();
+
+            return u;
         }
     }
+
 }

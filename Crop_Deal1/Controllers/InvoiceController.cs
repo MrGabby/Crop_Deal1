@@ -79,23 +79,6 @@ namespace Crop_Deal1.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Invoice>> UpdateInvoice(int id, Invoice invoice)
-        {
-            if (invoice == null)
-            {
-                return NotFound();
-            }
-
-            var database_invoice = repo.UpdateInvoice(id, invoice);
-            if (database_invoice == null)
-            {
-                NotFound();
-            }
-            return Ok();
-        }
-
-
         [HttpDelete("{id}")]
         public async Task<ActionResult<Invoice>> DeleteInvoice(int id)
         {

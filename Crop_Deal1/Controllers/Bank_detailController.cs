@@ -9,11 +9,13 @@ using Crop_Deal1.Data;
 using Crop_Deal1.Models;
 using Crop_Deal1.Interface;
 using Crop_Deal1.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Crop_Deal1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="Admin")]
     public class Bank_detailController : ControllerBase
     {
 
@@ -25,7 +27,7 @@ namespace Crop_Deal1.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Bank_detail>> PostBank_detail(Bank_detail bank_detail)
+        public async Task<ActionResult<Bank_detail>> PostBank_detail(Bank_detaildto bank_detail)
         {
 
             var details = await repo.CreateBank_acc(bank_detail);
@@ -39,14 +41,26 @@ namespace Crop_Deal1.Controllers
 
 
         // GET: api/Bank_detail
+        [HttpGet("GetUserwithBank_details")]
+        public async Task<ActionResult<List<Bank_detail>>> GetUserwithBank_details()
+        {
+            var details = await repo.GetUserwithBank_details();
+            if (details == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(details);
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<Bank_detail>>> GetBank_details()
         {
-            var details= await repo.GetBank_details();
-          if (details == null)
-          {
-              return NotFound();
-          }
+            var details = await repo.GetBank_details();
+            if (details == null)
+            {
+                return NotFound();
+            }
             var list = new List<Bank_detaildto>();
 
             foreach (var i in details)
@@ -54,12 +68,12 @@ namespace Crop_Deal1.Controllers
                 list.Add(new Bank_detaildto()
                 {
                     Bank_name = i.Bank_name,
-                    Account_no= i.Account_no,
-                     IFSC = i.IFSC
+                    Account_no = i.Account_no,
+                    IFSC = i.IFSC
                 });
             }
 
-            return Ok(list);
+            return Ok(details);
         }
 
         // GET: api/Bank_detail/5

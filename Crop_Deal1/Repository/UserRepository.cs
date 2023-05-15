@@ -23,7 +23,7 @@ namespace Crop_Deal1.Repository
             return user;
         }
 
-        public async Task<List<User>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
             return await context.Users.ToListAsync();
         }

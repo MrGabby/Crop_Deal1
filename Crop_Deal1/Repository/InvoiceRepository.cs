@@ -1,33 +1,51 @@
-﻿using Crop_Deal1.Interface;
+﻿using Crop_Deal1.Data;
+using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Crop_Deal1.Repository
 {
     public class InvoiceRepository : IInvoice
     {
-        Task<Invoice> IInvoice.CreateInvoice(Invoice invoice)
+        private readonly ApiDbContext context;
+
+        public InvoiceRepository(ApiDbContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
+        }
+        public async Task<Invoice>  CreateInvoice(Invoice invoice)
+        {
+            await context.Invoices.AddAsync(invoice);
+            await context.SaveChangesAsync();
+            return invoice;
         }
 
-        Task<Invoice> IInvoice.DeleteInvoice(int id)
+       public async Task<Invoice> DeleteInvoice(int id)
         {
-            throw new NotImplementedException();
+           var invoice = await context.Invoices.FindAsync( id);
+            if (invoice == null)
+            {
+                return null;
+            }
+            context.Invoices.Remove(invoice);
+            return invoice;
         }
 
-        Task<Invoice> IInvoice.GetInvoice(int id)
+        public async Task<Invoice> GetInvoice(int id)
         {
-            throw new NotImplementedException();
+            var invoice = await context.Invoices.FindAsync(id);
+            if (invoice == null)
+            {
+                return  null;
+            }
+            return invoice;
         }
 
-        Task<List<Invoice>> IInvoice.GetInvoices()
+       public async Task<IEnumerable<Invoice>>GetInvoices()
         {
-            throw new NotImplementedException();
+            return await context.Invoices.ToListAsync();
         }
 
-        Task<Invoice> IInvoice.UpdateInvoice(int id, Invoice invoice)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

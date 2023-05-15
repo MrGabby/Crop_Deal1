@@ -9,5 +9,6 @@
 
         //-------------------------------------------------------------
         public string? IFSC { get; set; }
+        public int userid { get; set; }
     }
 }
