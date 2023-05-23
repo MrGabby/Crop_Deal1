@@ -30,7 +30,7 @@ namespace Crop_Deal1.Models
         [Required]
         public string? Location { get; set;}
         /*  [JsonIgnore]*/
-      /*  public virtual Crop Crop { get; set; }*/
+        public virtual Crop Crop { get; set; }
 
 
     }

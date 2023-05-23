@@ -15,7 +15,7 @@ namespace Crop_Deal1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin")]
+  //  [Authorize(Roles ="Admin")]
     public class Bank_detailController : ControllerBase
     {
 
@@ -73,7 +73,7 @@ namespace Crop_Deal1.Controllers
                 });
             }
 
-            return Ok(details);
+            return Ok(list);
         }
 
         // GET: api/Bank_detail/5

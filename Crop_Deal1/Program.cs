@@ -63,6 +63,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 // Middleware created for Authentication/Authorization
 app.UseAuthorization();
 
@@ -71,7 +72,7 @@ app.UseHttpsRedirection();
  
 app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
-app.UseAuthorization();
+
 
 app.MapControllers();
 

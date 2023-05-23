@@ -30,9 +30,13 @@ namespace Crop_Deal1.Models
         [DataType(DataType.EmailAddress)]
         public string? Email_id { get; set; }
 
-        [Required]
+        //[Required]
+
+        //public int Password { get; set; }
         [JsonIgnore]
-        public int Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        [JsonIgnore]
+        public byte[] PasswordSalt { get; set; }
 
 
         //-------------------------------------------------------------

@@ -1,7 +1,8 @@
 ﻿namespace Crop_Deal1.Dtos
 {
     public class Bank_detaildto
-    {
+    {   
+         public int Bank_detailid { get; set; }
         public string? Bank_name { get; set; }
 
         //-------------------------------------------------------------

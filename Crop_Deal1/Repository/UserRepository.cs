@@ -3,6 +3,8 @@ using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
 using Crop_Deal1.Data;
 using Microsoft.EntityFrameworkCore;
+using Crop_Deal1.Dtos;
+using Azure.Core;
 
 namespace Crop_Deal1.Repository
  
@@ -39,16 +41,16 @@ namespace Crop_Deal1.Repository
             return user;
         }
 
-        public async Task<User> UpdateUser(int id, User i)
+        public async Task<User> UpdateUser(int id, Userdto i)
         {
             var user = await context.Users.FindAsync(id);
             if (user == null)
             {
                 return null;
             }
-            user.Userid = id;
+           
             user.Name = i.Name;
-            user.Password = i.Password;
+            //user.Password = i.Password;
             user.Email_id = i.Email_id;
             user.Contact = i.Contact;
             user.Address = i.Address;
@@ -68,6 +70,18 @@ namespace Crop_Deal1.Repository
                 return null;
             }
             return user;
+        }  
+        
+        public async Task<User> FindUser(string username)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Email_id == username);
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
         }
+
+
     }
 }

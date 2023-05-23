@@ -1,4 +1,5 @@
-﻿using Crop_Deal1.Models;
+﻿using Crop_Deal1.Dtos;
+using Crop_Deal1.Models;
 
 namespace Crop_Deal1.Interface
 {
@@ -7,8 +8,9 @@ namespace Crop_Deal1.Interface
         Task<User> CreateUser(User user);
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
-        Task<User> UpdateUser(int id,User user);
+        Task<User> UpdateUser(int id,Userdto user);
         Task<User> DeleteUser(int id);
+        Task<User> FindUser(string username);
          
     }
 }

@@ -4,6 +4,7 @@ using Crop_Deal1.Dtos;
 using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
 using Crop_Deal1.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ namespace Crop_Deal1.Controllers
 
         //  Repo DTO --------------------------------------------
         [HttpPost]
+        [Route("Register")]
         public async Task<ActionResult<User>>AddUser(Userdto userd)
         {
             
@@ -32,7 +34,7 @@ namespace Crop_Deal1.Controllers
             var user = new User()
             { 
                 Name = userd.Name,
-                Password = userd.Password,
+               // Password = userd.Password,
                 Email_id = userd.Email_id,
                 Contact = userd.Contact,
                 Address = userd.Address,
@@ -43,7 +45,7 @@ namespace Crop_Deal1.Controllers
             user = await repo.CreateUser(user);
             return Ok(user);
         }
-
+       // [Authorize(Roles ="Admin")]
         [HttpGet]
         public async Task<ActionResult<User>> GetAllUsers()
         {
@@ -52,7 +54,7 @@ namespace Crop_Deal1.Controllers
             {
                 return BadRequest();
             }
-
+             
             var userlist = new List<User>();
 
             foreach (var i in user)
@@ -60,7 +62,7 @@ namespace Crop_Deal1.Controllers
                 userlist.Add(new User()
                  {  Userid=i.Userid,
                     Name=i.Name,
-                    Password=i.Password,
+                  //  Password=i.Password,
                     Email_id=i.Email_id,
                     Contact = i.Contact,
                     Address = i.Address,
@@ -87,19 +89,22 @@ namespace Crop_Deal1.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateUser(int id, User user)
-        {
+        public async Task<ActionResult<User>> UpdateUser(int id, Userdto user)
+        { 
+             
             if (user == null)
             {
                 return NotFound();
             }
 
-            var database_user = repo.UpdateUser(id, user);
+       
+            var database_user = await repo.UpdateUser(id, user);
+            
             if (database_user == null)
             {
                 NotFound();
             }
-            return Ok();
+            return Ok(database_user);
         }
 
 

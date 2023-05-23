@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Crop_Deal1.Data;
 using Crop_Deal1.Models;
+using Crop_Deal1.Interface;
+using Crop_Deal1.Dtos;
 
 namespace Crop_Deal1.Controllers
 {
@@ -14,111 +16,98 @@ namespace Crop_Deal1.Controllers
     [ApiController]
     public class Crop_detailController : ControllerBase
     {
-        private readonly ApiDbContext _context;
-
-        public Crop_detailController(ApiDbContext context)
+        private readonly ICrop_detail repo;
+        public Crop_detailController(ICrop_detail repo)
         {
-            _context = context;
+            this.repo = repo;
         }
 
-        // GET: api/Crop_detail
-        [HttpGet]
+
+         [HttpGet]
         public async Task<ActionResult<IEnumerable<Crop_detail>>> GetCrop_details()
         {
-          if (_context.Crop_details == null)
-          {
-              return NotFound();
-          }
-            return await _context.Crop_details.ToListAsync();
-        }
 
-        // GET: api/Crop_detail/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Crop_detail>> GetCrop_detail(int id)
-        {
-          if (_context.Crop_details == null)
-          {
-              return NotFound();
-          }
-            var crop_detail = await _context.Crop_details.FindAsync(id);
-
-            if (crop_detail == null)
+            var crop = await repo.GetCrop_details();
+            if (crop == null)
             {
                 return NotFound();
             }
-
-            return crop_detail;
-        }
-
-        // PUT: api/Crop_detail/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCrop_detail(int id, Crop_detail crop_detail)
-        {
-            if (id != crop_detail.Crop_detailid)
+            var croplist = new List<Crop_detail>();
+            foreach (var c in crop)
             {
-                return BadRequest();
-            }
-
-            _context.Entry(crop_detail).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!Crop_detailExists(id))
+                croplist.Add(new Crop_detail()
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    Crop_detailid = c.Crop_detailid,
+                    Crop_name = c.Crop_name,
+                    Crop_type = c.Crop_type,
+                    CropDetail_description = c.CropDetail_description,
+                    Quantity = c.Quantity,
+                    Price = c.Price,
+                    Location = c.Location
+
+
+                });
+
             }
+            return Ok(croplist);    
 
-            return NoContent();
         }
 
-        // POST: api/Crop_detail
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Crop_detail>> PostCrop_detail(Crop_detail crop_detail)
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Crop_detail>> GetCrop_detail(int id)
+        { 
+            var crop = await repo.GetCrop_detail(id);
+            if(crop == null)
+            {
+                return NotFound();
+            }
+            return Ok(crop);
+      }
+      [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCrop_detail(int id, Crop_detail crop_detail)
         {
-          if (_context.Crop_details == null)
-          {
-              return Problem("Entity set 'ApiDbContext.Crop_details'  is null.");
-          }
-            _context.Crop_details.Add(crop_detail);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCrop_detail", new { id = crop_detail.Crop_detailid }, crop_detail);
+           var crop = await repo.UpdateCrop_detail(id, crop_detail);
+            if(crop == null)
+            {
+                return NotFound();
+            }
+            return Ok(crop);
         }
+
+       [HttpPost]
+        public async Task<ActionResult<Crop_detail>> CreateCrop(Crop_detaildto crop_detail)
+        {
+
+            var crop = new Crop_detail()
+            {
+                Crop_name = crop_detail.Crop_name,
+                CropDetail_description= crop_detail.CropDetail_description,
+                Crop_type = crop_detail.Crop_type,
+                Quantity= crop_detail.Quantity,
+                Price = crop_detail.Price,
+                Location = crop_detail.Location 
+            };
+            var c  = await repo.CreateCrop(crop);
+            if (c == null)
+            {
+                return NotFound();
+            }
+            return Ok(c);
+       }
 
         // DELETE: api/Crop_detail/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCrop_detail(int id)
         {
-            if (_context.Crop_details == null)
+          var crop = await repo.DeleteCrop_detail(id);
+            if(crop == null)
             {
                 return NotFound();
             }
-            var crop_detail = await _context.Crop_details.FindAsync(id);
-            if (crop_detail == null)
-            {
-                return NotFound();
-            }
-
-            _context.Crop_details.Remove(crop_detail);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok();
         }
 
-        private bool Crop_detailExists(int id)
-        {
-            return (_context.Crop_details?.Any(e => e.Crop_detailid == id)).GetValueOrDefault();
-        }
+      
     }
 }

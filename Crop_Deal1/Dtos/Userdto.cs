@@ -6,11 +6,11 @@ namespace Crop_Deal1.Dtos
     public class Userdto
     {
 
-       
+   
         public string? Name { get; set; }
 
       
-        public int Password { get; set; }
+        public string Password { get; set; }
         //----------------------------------------------------------------- 
      
         public string? Contact { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Crop_Deal1.Data;
+using Crop_Deal1.Dtos;
 using Crop_Deal1.Interface;
 using Crop_Deal1.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,17 @@ namespace Crop_Deal1.Repository
             this.context = context;
         }
 
-        public async Task<Crop> CreateCrop(Crop user)
+        public async Task<Crop> CreateCrop(Cropdto user)
         {
-            await context.Crops.AddAsync(user);
+            var crop = new Crop() {
+            Crop_name = user.Crop_name,
+            Crop_image = user.Crop_image,
+            Crop_detailid= user.Crop_detailid,
+            Userid = user.Userid
+            };
+            await context.Crops.AddAsync(crop);
             await context.SaveChangesAsync();
-            return user;
+            return crop;
         }
 
         public async Task<Crop> DeleteCrop(int id)
@@ -48,7 +55,7 @@ namespace Crop_Deal1.Repository
             return await context.Crops.ToListAsync();
         }
 
-        public async Task<Crop> UpdateCrop(int id, Crop user)
+        public async Task<Crop> UpdateCrop(int id, Cropdto user)
         {
             var u = await context.Crops.FindAsync(id);
             if (u == null)

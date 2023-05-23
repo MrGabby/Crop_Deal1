@@ -26,15 +26,9 @@ namespace Crop_Deal1.Controllers
             {
                 return BadRequest();
             }
-            var invoice = new Invoice()
-            {
-                Quantity = invoiced.Quantity,
-                Price = invoiced.Price,
-                Payment_Mode = invoiced.Payment_Mode,
-                Status = invoiced.Status
-            };
+    
 
-            invoice = await repo.CreateInvoice(invoice);
+           var invoice = await repo.CreateInvoice(invoiced);
             return Ok(invoice);
         }
 
@@ -58,7 +52,9 @@ namespace Crop_Deal1.Controllers
                     Price = i.Price,
                   Payment_Mode = i.Payment_Mode, 
                     Status = i.Status,
-                    Date_created = i.Date_created
+                    Date_created = i.Date_created,
+                    Userid= i.Userid,
+                    Crop_detailid= i.Crop_detailid
                   
                 });
             }
